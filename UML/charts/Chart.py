@@ -3,18 +3,29 @@ import Colors
 
 
 class Chart:
-    value = 0
-
-    def __init__(self, canvas, sizeX=160, sizeY=200, color=Colors.BLACK, x=0, y=0, thickness=2):
-        self.canvas = canvas
-        self.sizeX = sizeX
-        self.sizeY = sizeY
-        self.color = color
+    def __init__(self,
+                 parentSurface,
+                 width=160,
+                 height=200,
+                 boundColor=Colors.BLACK,
+                 x=0, y=0,
+                 thickness=2,
+                 backgroundColor=Colors.LIGHT_LIGHT_GREY):
+        self.parentSurface = parentSurface
+        self.width = width
+        self.height = height
+        self.boundColor = boundColor
         self.x = x
         self.y = y
         self.thickness = thickness
+        self.backgroundColor = backgroundColor
+        self.surface = pygame.Surface((self.width, self.height))
 
     def draw(self):
-        print("drawing:", self.sizeX)
-        pygame.draw.rect(self.canvas, self.color,
-                         (self.x, self.y, self.sizeX, self.sizeY), self.thickness)
+        # print("drawing:", self.width)
+        self.surface.fill(self.backgroundColor)
+        pygame.draw.rect(self.surface, self.boundColor,
+                         (0, 0, self.width, self.height), self.thickness * 2)
+
+    def blit(self):
+        self.parentSurface.blit(self.surface, (self.x, self.y))
