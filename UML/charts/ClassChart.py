@@ -16,16 +16,16 @@ class ClassChart(Chart):
                  name="Class",
                  backgroundColor=Colors.LIGHT_LIGHT_GREY, ):
         super().__init__(parentSurface, width, height, boundColor, x, y, thickness)
-        # self.manager = gui.UIManager((self.width, self.height))
+        self.manager = gui.UIManager((self.width, self.height))
         # self.name = gui.elements.UITextEntryLine(pygame.Rect((0, 0), (self.width, self.height)), self.manager)
         self.name = gui.elements.UITextEntryLine(pygame.Rect((self.x, self.y), (self.width, self.height)), manager)
         self.nameSize = self.height // 10
         self.fieldSize = (self.height - self.nameSize) // 2
         self.name.set_text(name)
 
+
     def draw(self):
         super(ClassChart, self).draw()
-        # print("X == {}".format(self.width))
         pygame.draw.line(self.surface, self.boundColor, (0, self.nameSize),
                          (self.width, self.nameSize), self.thickness)
         pygame.draw.line(self.surface, self.boundColor, (0, self.nameSize + self.fieldSize),

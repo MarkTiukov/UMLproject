@@ -8,8 +8,8 @@ import pygame_textinput as Textfield
 from charts.ClassChart import ClassChart
 
 FPS = 60
-windowWidth = 900
-windowHeight = 900
+windowWidth = 1500
+windowHeight = 1000
 clock = pygame.time.Clock()
 
 pygame.init()
@@ -19,7 +19,12 @@ manager = gui.UIManager((windowWidth, windowHeight))
 background = pygame.Surface((windowWidth, windowHeight))
 background.fill(Colors.WHITE)
 
-chart = ClassChart(windowSurface, manager, x=100, y=100, name="TEst")
+charts = list()
+
+menu = gui.elements.UIPanel(pygame.Rect((0, 0), (windowWidth // 5, windowHeight)), 0, manager)
+classCreationButton = gui.elements.UIButton(pygame.Rect((0, 0), (windowWidth // 5, 100)), "add Class", manager)
+enteringCoordinates = gui.elements.UITextEntryLine(
+    pygame.Rect((0, windowHeight - 100), (windowWidth // 5, windowHeight)), manager)
 
 running = True
 while running:
@@ -28,10 +33,18 @@ while running:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.USEREVENT:
+            if event.user_type == gui.UI_BUTTON_PRESSED:
+                if event.ui_element == classCreationButton:
+                    charts.append(ClassChart(windowSurface, manager, x=200 + windowWidth // 5, y=100))
+
     manager.process_events(event)
 
-    windowSurface.blit(background, (0, 0))
-    chart.draw()
+    windowSurface.blit(background, (windowWidth // 5, 0))
+    for chart in charts:
+        # TODO
+        # add try catch here
+        chart.draw()
 
     manager.update(FPS)
     manager.draw_ui(windowSurface)
