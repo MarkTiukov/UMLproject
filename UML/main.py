@@ -6,8 +6,9 @@ import Colors
 import pygame_textinput as Textfield
 
 from charts.ClassChart import ClassChart
+from charts.InterfaceChart import InterfaceChart
 
-FPS = 60
+FPS = 120
 windowWidth = 1500
 windowHeight = 1000
 clock = pygame.time.Clock()
@@ -23,10 +24,12 @@ charts = list()
 
 menu = gui.elements.UIPanel(pygame.Rect((0, 0), (windowWidth // 5, windowHeight)), 0, manager)
 classCreationButton = gui.elements.UIButton(pygame.Rect((0, 0), (windowWidth // 5, 100)), "add Class", manager)
-enteringCoordinates = gui.elements.UITextEntryLine(
-    pygame.Rect((0, windowHeight - 100), (windowWidth // 5, windowHeight)), manager)
+interfaceCreationButton = gui.elements.UIButton(pygame.Rect((0, 100), (windowWidth // 5, 100)), "add Interface", manager)
 
 running = True
+
+creationMode = "none"
+
 while running:
     events = pygame.event.get()
     for event in events:
@@ -36,7 +39,16 @@ while running:
         if event.type == pygame.USEREVENT:
             if event.user_type == gui.UI_BUTTON_PRESSED:
                 if event.ui_element == classCreationButton:
-                    charts.append(ClassChart(windowSurface, manager, x=200 + windowWidth // 5, y=100))
+                    creationMode = "class"
+                if event.ui_element == interfaceCreationButton:
+                    creationMode = "interface"
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if not creationMode == "none":
+                if creationMode == "class":
+                    charts.append(ClassChart(windowSurface, manager, x=event.pos[0], y=event.pos[1]))
+                if creationMode == "interface":
+                    charts.append(InterfaceChart(windowSurface, manager, x=event.pos[0], y=event.pos[1]))
+                creationMode = "none"
 
     manager.process_events(event)
 
