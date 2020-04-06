@@ -28,14 +28,17 @@ class Chart:
 
     def createDefaultCircles(self):
         self.circles.append(
-            gui.elements.UIButton(pygame.Rect((self.x + self.width // 2 - 5, self.y - 10), (10, 10)), "", self.manager))
+            gui.elements.UIButton(pygame.Rect((self.x + self.width // 2 - 5, self.y - 10), (10, 10)), "", self.manager,
+                                  object_id="smallchartbutton|top"))
         self.circles.append(
-            gui.elements.UIButton(pygame.Rect((self.x + self.width, self.y + self.height // 2 - 5), (10, 10)), "", self.manager))
+            gui.elements.UIButton(pygame.Rect((self.x + self.width, self.y + self.height // 2 - 5), (10, 10)), "",
+                                  self.manager, object_id="smallchartbutton|right"))
         self.circles.append(
             gui.elements.UIButton(pygame.Rect((self.x + self.width // 2 - 5, self.y + self.height), (10, 10)), "",
-                                  self.manager))
+                                  self.manager, object_id="smallchartbutton|down"))
         self.circles.append(
-            gui.elements.UIButton(pygame.Rect((self.x - 10, self.y + self.height // 2 - 5), (10, 10)), "", self.manager))
+            gui.elements.UIButton(pygame.Rect((self.x - 10, self.y + self.height // 2 - 5), (10, 10)), "", self.manager,
+                                  object_id="smallchartbutton|left"))
 
     def draw(self):
         # print("drawing:", self.width)
