@@ -21,15 +21,19 @@ background = pygame.Surface((windowWidth, windowHeight))
 background.fill(Colors.WHITE)
 
 charts = list()
+arrows = list()
 
 menu = gui.elements.UIPanel(pygame.Rect((0, 0), (windowWidth // 5, windowHeight)), 0, manager)
 classCreationButton = gui.elements.UIButton(pygame.Rect((0, 0), (windowWidth // 5, 100)), "add Class", manager)
 interfaceCreationButton = gui.elements.UIButton(pygame.Rect((0, 100), (windowWidth // 5, 100)), "add Interface",
                                                 manager)
 
+
 running = True
 
 creationMode = "none"
+startArrow = "none"
+endArrow = "none"
 
 while running:
     events = pygame.event.get()
@@ -55,7 +59,12 @@ while running:
                         if event.ui_element.object_ids[0].split("|")[0] == "smallchartbutton":
                             #TODO
                             # add action on click
-                            print(event.ui_element.object_ids[0].split("|")[1], "     ", event.ui_element.relative_rect)
+                            rect = event.ui_element.relative_rect
+                            rect = ((rect[0] + rect[2]) // 2, (rect[1] + rect[3]) // 2)
+                            if startArrow == "none":
+                                startArrow = rect
+                            else:
+                                endArrow = rect
                     except Exception as e:
                         print("EXCEPTION!!!!", e)
 
