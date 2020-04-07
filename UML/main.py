@@ -1,83 +1,31 @@
-import pygame
-import pygame_gui as gui
+import tkinter as tk
 import sys
 
+
 import Colors
-import pygame_textinput as Textfield
 
 from charts.ClassChart import ClassChart
 from charts.InterfaceChart import InterfaceChart
 
-FPS = 120
 windowWidth = 1500
 windowHeight = 1000
-clock = pygame.time.Clock()
 
-pygame.init()
+root = tk.Tk()
+root.geometry("{}x{}".format(windowWidth, windowHeight))
+root.title("UML")
 
-windowSurface = pygame.display.set_mode((windowWidth, windowHeight))
-manager = gui.UIManager((windowWidth, windowHeight))
-background = pygame.Surface((windowWidth, windowHeight))
-background.fill(Colors.WHITE)
+canvas = tk.Canvas(root, width=windowWidth, height=windowHeight, bg='white')
+canvas.place(x=0, y=0)
+
+
 
 charts = list()
 arrows = list()
 
-menu = gui.elements.UIPanel(pygame.Rect((0, 0), (windowWidth // 5, windowHeight)), 0, manager)
-classCreationButton = gui.elements.UIButton(pygame.Rect((0, 0), (windowWidth // 5, 100)), "add Class", manager)
-interfaceCreationButton = gui.elements.UIButton(pygame.Rect((0, 100), (windowWidth // 5, 100)), "add Interface",
-                                                manager)
+menu = tk.Menu(tearoff=0)
+#TODO
+# createClass()
+# createInterface()
 
+root.mainloop()
 
-running = True
-
-creationMode = "none"
-startArrow = "none"
-endArrow = "none"
-
-while running:
-    events = pygame.event.get()
-    for event in events:
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if not creationMode == "none":
-                if creationMode == "class":
-                    charts.append(ClassChart(windowSurface, manager, x=event.pos[0], y=event.pos[1]))
-                elif creationMode == "interface":
-                    charts.append(InterfaceChart(windowSurface, manager, x=event.pos[0], y=event.pos[1]))
-                creationMode = "none"
-        elif event.type == pygame.USEREVENT:
-            if event.user_type == gui.UI_BUTTON_PRESSED:
-                if event.ui_element == classCreationButton:
-                    creationMode = "class"
-                elif event.ui_element == interfaceCreationButton:
-                    creationMode = "interface"
-                else:
-                    try:
-                        if event.ui_element.object_ids[0].split("|")[0] == "smallchartbutton":
-                            #TODO
-                            # add action on click
-                            rect = event.ui_element.relative_rect
-                            rect = ((rect[0] + rect[2]) // 2, (rect[1] + rect[3]) // 2)
-                            if startArrow == "none":
-                                startArrow = rect
-                            else:
-                                endArrow = rect
-                    except Exception as e:
-                        print("EXCEPTION!!!!", e)
-
-
-    manager.process_events(event)
-
-    windowSurface.blit(background, (windowWidth // 5, 0))
-    for chart in charts:
-        # TODO
-        # add try catch here
-        chart.draw()
-
-    manager.update(FPS)
-    manager.draw_ui(windowSurface)
-    pygame.display.update()
-    clock.tick(FPS)
