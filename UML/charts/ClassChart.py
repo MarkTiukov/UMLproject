@@ -11,20 +11,20 @@ class ClassChart(Chart):
                  width=160,
                  height=200,
                  boundColor=Colors.BLACK,
-                 thickness=2,
+                 thickness=4,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY,
                  name="Class"):
         super().__init__(canvas, x, y, width, height, boundColor, thickness, backgroundColor)
-        self.name = tk.Text(self.frame, width=self.width, height=self.height, bg=backgroundColor)
-        self.fields = tk.Text(self.frame, width=self.width, height=self.height)
-
+        self.name = tk.Text(self.frame, width=self.width, height=1, bg=self.backgroundColor, wrap=tk.WORD)
+        self.name.insert(1.0, name)
+        self.name.tag_configure("center", justify='center')
+        self.name.tag_add("center", "1.0", "end")
+        self.fields = tk.Text(self.frame, width=self.width, height=5, bg=self.backgroundColor)
+        self.methods = tk.Text(self.frame, width=self.width, bg=self.backgroundColor)
 
     def draw(self):
-        super(ClassChart, self).draw()
-        pygame.draw.line(self.surface, self.boundColor, (0, self.nameSize),
-                         (self.width, self.nameSize), self.thickness)
-        pygame.draw.line(self.surface, self.boundColor, (0, self.nameSize + self.fieldSize),
-                         (self.width, self.nameSize + self.fieldSize), self.thickness)
-        # self.manager.update(60)
-        # self.manager.draw_ui(self.surface)
-        self.blit()
+        super().draw()
+        self.name.pack()
+        self.fields.pack()
+        self.methods.pack()
+        self.frame.place(x=self.x, y=self.y, width=self.width, height=self.height)

@@ -1,8 +1,4 @@
 import tkinter as tk
-import sys
-
-
-import Colors
 
 from charts.ClassChart import ClassChart
 from charts.InterfaceChart import InterfaceChart
@@ -17,15 +13,39 @@ root.title("UML")
 canvas = tk.Canvas(root, width=windowWidth, height=windowHeight, bg='white')
 canvas.place(x=0, y=0)
 
-
-
 charts = list()
 arrows = list()
 
+xToCreate = 0
+yToCreate = 0
+
+
+def popup(event):
+    global xToCreate, yToCreate
+    xToCreate = event.x
+    yToCreate = event.y
+    menu.post(event.x_root, event.y_root)
+
+
+def createClass():
+    global charts
+    charts.append(ClassChart(canvas, x=xToCreate, y=yToCreate))
+    charts[len(charts) - 1].draw()
+
+
+def createInterface():
+    global charts
+    charts.append(InterfaceChart(canvas, x=xToCreate, y=yToCreate))
+    charts[len(charts) - 1].draw()
+
+
 menu = tk.Menu(tearoff=0)
-#TODO
-# createClass()
-# createInterface()
+menu.add_command(label="Class", command=createClass)
+menu.add_command(label="Interface", command=createInterface)
+
+canvas.bind("<Button-1>", popup)
+
+for chart in charts:
+    chart.draw()
 
 root.mainloop()
-

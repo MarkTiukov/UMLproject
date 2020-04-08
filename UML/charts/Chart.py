@@ -1,4 +1,5 @@
 import tkinter as tk
+
 import Colors
 
 
@@ -9,7 +10,7 @@ class Chart:
                  width=160,
                  height=200,
                  boundColor=Colors.BLACK,
-                 thickness=2,
+                 thickness=4,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY):
         self.canvas = canvas
         self.width = width
@@ -21,4 +22,6 @@ class Chart:
         self.backgroundColor = backgroundColor
         self.frame = tk.Frame(width=self.width, height=self.height, bg=self.backgroundColor)
 
-
+    def draw(self):
+        self.canvas.create_rectangle(self.x - 1, self.y - 1, self.x + self.width + 1, self.y + self.height + 1,
+                                     width=self.thickness, outline=self.boundColor)
