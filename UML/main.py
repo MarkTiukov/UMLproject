@@ -1,7 +1,13 @@
+import sys
 import tkinter as tk
+from tkinter import messagebox as mb
 
+from arrows.Line import Line
 from charts.ClassChart import ClassChart
 from charts.InterfaceChart import InterfaceChart
+
+mouseRightButton = {"linux": "<Button-3>", "win32": "<Button-3>", "cygwin": "<Button-3>", "darwin": "<Button-2>"}[
+    sys.platform]
 
 windowWidth = 1500
 windowHeight = 1000
@@ -16,8 +22,30 @@ canvas.place(x=0, y=0)
 charts = list()
 arrows = list()
 
+arrowStart = None
+arrowEnd = None
+
 xToCreate = 100
 yToCreate = 100
+
+mb.showinfo("Небольшой туториал", "Нажми правой кнопкой там, где хочешь создать класс или интерфейс")
+
+
+def drawArrow():
+    arrows.append(Line(canvas, arrowStart, arrowEnd))
+    arrows[-1:][0].draw()
+
+
+def createArrow(coordinates):
+    global arrowStart, arrowEnd
+    global arrows
+    if arrowStart is None:
+        arrowStart = coordinates
+    elif arrowEnd is None:
+        arrowEnd = coordinates
+        drawArrow()
+        arrowStart = None
+        arrowEnd = None
 
 
 def popup(event):
@@ -27,24 +55,28 @@ def popup(event):
     menu.post(event.x_root, event.y_root)
 
 
+def createChart():
+    charts[-1:][0].smallButtons[0]['command'] = lambda coordinate=(
+        charts[-1:][0].x + charts[-1:][0].width // 2,
+        charts[-1:][0].y - 14): createArrow(coordinate)
+    charts[-1:][0].draw()
+
 def createClass():
     global charts
     charts.append(ClassChart(canvas, x=xToCreate, y=yToCreate))
-    charts[len(charts) - 1].draw()
+    createChart()
 
 
 def createInterface():
     global charts
     charts.append(InterfaceChart(canvas, x=xToCreate, y=yToCreate))
-    charts[len(charts) - 1].draw()
+    createChart()
 
 
 menu = tk.Menu(tearoff=0)
 menu.add_command(label="Class", command=createClass)
 menu.add_command(label="Interface", command=createInterface)
 
-canvas.bind("<Button-2>", popup)
-
-createClass()
+canvas.bind(mouseRightButton, popup)
 
 root.mainloop()

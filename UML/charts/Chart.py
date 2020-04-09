@@ -30,7 +30,6 @@ class Chart:
         self.thickness = thickness
         self.backgroundColor = backgroundColor
         self.frame = tk.Frame(width=self.width, height=self.height, bg=self.backgroundColor)
-        self.frame.bind("<Button-2>", func)
         self.smallButtons = [
             tk.Button(text="", width=1, height=1, bg=Colors.YELLOW, fg=Colors.BLACK, activebackground=Colors.PINK,
                       activeforeground=Colors.GREEN, command=func2),
