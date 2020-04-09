@@ -16,8 +16,8 @@ canvas.place(x=0, y=0)
 charts = list()
 arrows = list()
 
-xToCreate = 0
-yToCreate = 0
+xToCreate = 100
+yToCreate = 100
 
 
 def popup(event):
@@ -45,7 +45,6 @@ menu.add_command(label="Interface", command=createInterface)
 
 canvas.bind("<Button-2>", popup)
 
-for chart in charts:
-    chart.draw()
+createClass()
 
 root.mainloop()
