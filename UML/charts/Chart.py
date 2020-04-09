@@ -1,20 +1,27 @@
-import pygame
-import pygame_gui as gui
+import tkinter as tk
+
 import Colors
 
 
+def func():
+    print("test")
+
+
+def func2():
+    print("test2")
+
+
 class Chart:
+
     def __init__(self,
-                 parentSurface,
-                 manager,
+                 canvas,
+                 x=0, y=0,
                  width=160,
                  height=200,
                  boundColor=Colors.BLACK,
-                 x=0, y=0,
-                 thickness=2,
+                 thickness=4,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY):
-        self.parentSurface = parentSurface
-        self.manager = manager
+        self.canvas = canvas
         self.width = width
         self.height = height
         self.boundColor = boundColor
@@ -22,29 +29,17 @@ class Chart:
         self.y = y
         self.thickness = thickness
         self.backgroundColor = backgroundColor
-        self.surface = pygame.Surface((self.width, self.height))
-        self.circles = list()
-        self.createDefaultCircles()
-
-    def createDefaultCircles(self):
-        self.circles.append(
-            gui.elements.UIButton(pygame.Rect((self.x + self.width // 2 - 5, self.y - 10), (10, 10)), "", self.manager,
-                                  object_id="smallchartbutton|top"))
-        self.circles.append(
-            gui.elements.UIButton(pygame.Rect((self.x + self.width, self.y + self.height // 2 - 5), (10, 10)), "",
-                                  self.manager, object_id="smallchartbutton|right"))
-        self.circles.append(
-            gui.elements.UIButton(pygame.Rect((self.x + self.width // 2 - 5, self.y + self.height), (10, 10)), "",
-                                  self.manager, object_id="smallchartbutton|down"))
-        self.circles.append(
-            gui.elements.UIButton(pygame.Rect((self.x - 10, self.y + self.height // 2 - 5), (10, 10)), "", self.manager,
-                                  object_id="smallchartbutton|left"))
+        self.frame = tk.Frame(width=self.width, height=self.height, bg=self.backgroundColor)
+        self.smallButtons = [
+            tk.Button(text="", width=1, height=1, bg=Colors.YELLOW, fg=Colors.BLACK, activebackground=Colors.PINK,
+                      activeforeground=Colors.GREEN, command=func2),
+            tk.Button(text="", width=1, height=1, command=func),
+            tk.Button(text="", width=1, height=1, command=func),
+            tk.Button(text="", width=1, height=1, command=func)]
+        self.smallButtons[0].config(bg=Colors.PINK)
 
     def draw(self):
-        # print("drawing:", self.width)
-        self.surface.fill(self.backgroundColor)
-        pygame.draw.rect(self.surface, self.boundColor,
-                         (0, 0, self.width, self.height), self.thickness * 2)
-
-    def blit(self):
-        self.parentSurface.blit(self.surface, (self.x, self.y))
+        self.canvas.create_rectangle(self.x - 1, self.y - 1, self.x + self.width + 1, self.y + self.height + 1,
+                                     width=self.thickness, outline=self.boundColor)
+        self.smallButtons[0].place(x=self.x + self.width // 2 - 5, y=self.y - 12, height=10, width=10)
+        # self.smallButtons[1].place(x=self.x - 10, y=self.y - )

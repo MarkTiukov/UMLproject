@@ -1,74 +1,82 @@
-import pygame
-import pygame_gui as gui
 import sys
+import tkinter as tk
+from tkinter import messagebox as mb
 
-import Colors
-import pygame_textinput as Textfield
-
+from arrows.Line import Line
 from charts.ClassChart import ClassChart
 from charts.InterfaceChart import InterfaceChart
 
-FPS = 120
+mouseRightButton = {"linux": "<Button-3>", "win32": "<Button-3>", "cygwin": "<Button-3>", "darwin": "<Button-2>"}[
+    sys.platform]
+
 windowWidth = 1500
 windowHeight = 1000
-clock = pygame.time.Clock()
 
-pygame.init()
+root = tk.Tk()
+root.geometry("{}x{}".format(windowWidth, windowHeight))
+root.title("UML")
 
-windowSurface = pygame.display.set_mode((windowWidth, windowHeight))
-manager = gui.UIManager((windowWidth, windowHeight))
-background = pygame.Surface((windowWidth, windowHeight))
-background.fill(Colors.WHITE)
+canvas = tk.Canvas(root, width=windowWidth, height=windowHeight, bg='white')
+canvas.place(x=0, y=0)
 
 charts = list()
+arrows = list()
 
-menu = gui.elements.UIPanel(pygame.Rect((0, 0), (windowWidth // 5, windowHeight)), 0, manager)
-classCreationButton = gui.elements.UIButton(pygame.Rect((0, 0), (windowWidth // 5, 100)), "add Class", manager)
-interfaceCreationButton = gui.elements.UIButton(pygame.Rect((0, 100), (windowWidth // 5, 100)), "add Interface",
-                                                manager)
+arrowStart = None
+arrowEnd = None
 
-running = True
+xToCreate = 100
+yToCreate = 100
 
-creationMode = "none"
-
-while running:
-    events = pygame.event.get()
-    for event in events:
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if not creationMode == "none":
-                if creationMode == "class":
-                    charts.append(ClassChart(windowSurface, manager, x=event.pos[0], y=event.pos[1]))
-                elif creationMode == "interface":
-                    charts.append(InterfaceChart(windowSurface, manager, x=event.pos[0], y=event.pos[1]))
-                creationMode = "none"
-        elif event.type == pygame.USEREVENT:
-            if event.user_type == gui.UI_BUTTON_PRESSED:
-                if event.ui_element == classCreationButton:
-                    creationMode = "class"
-                elif event.ui_element == interfaceCreationButton:
-                    creationMode = "interface"
-                else:
-                    try:
-                        if event.ui_element.object_ids[0].split("|")[0] == "smallchartbutton":
-                            #TODO
-                            # add action on click
-                            print(event.ui_element.object_ids[0].split("|")[1], "     ", event.ui_element.relative_rect)
-                    except Exception as e:
-                        print("EXCEPTION!!!!", e)
+mb.showinfo("Небольшой туториал", "Нажми правой кнопкой там, где хочешь создать класс или интерфейс")
 
 
-    manager.process_events(event)
+def drawArrow():
+    arrows.append(Line(canvas, arrowStart, arrowEnd))
+    arrows[-1:][0].draw()
 
-    windowSurface.blit(background, (windowWidth // 5, 0))
-    for chart in charts:
-        # TODO
-        # add try catch here
-        chart.draw()
 
-    manager.update(FPS)
-    manager.draw_ui(windowSurface)
-    pygame.display.update()
-    clock.tick(FPS)
+def createArrow(coordinates):
+    global arrowStart, arrowEnd
+    global arrows
+    if arrowStart is None:
+        arrowStart = coordinates
+    elif arrowEnd is None:
+        arrowEnd = coordinates
+        drawArrow()
+        arrowStart = None
+        arrowEnd = None
+
+
+def popup(event):
+    global xToCreate, yToCreate
+    xToCreate = event.x
+    yToCreate = event.y
+    menu.post(event.x_root, event.y_root)
+
+
+def createChart():
+    charts[-1:][0].smallButtons[0]['command'] = lambda coordinate=(
+        charts[-1:][0].x + charts[-1:][0].width // 2,
+        charts[-1:][0].y - 14): createArrow(coordinate)
+    charts[-1:][0].draw()
+
+def createClass():
+    global charts
+    charts.append(ClassChart(canvas, x=xToCreate, y=yToCreate))
+    createChart()
+
+
+def createInterface():
+    global charts
+    charts.append(InterfaceChart(canvas, x=xToCreate, y=yToCreate))
+    createChart()
+
+
+menu = tk.Menu(tearoff=0)
+menu.add_command(label="Class", command=createClass)
+menu.add_command(label="Interface", command=createInterface)
+
+canvas.bind(mouseRightButton, popup)
+
+root.mainloop()
