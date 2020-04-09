@@ -43,7 +43,7 @@ menu = tk.Menu(tearoff=0)
 menu.add_command(label="Class", command=createClass)
 menu.add_command(label="Interface", command=createInterface)
 
-canvas.bind("<Button-1>", popup)
+canvas.bind("<Button-2>", popup)
 
 for chart in charts:
     chart.draw()
