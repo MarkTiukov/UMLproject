@@ -56,10 +56,12 @@ def popup(event):
 
 
 def createChart():
-    charts[-1:][0].smallButtons[0]['command'] = lambda coordinate=(
-        charts[-1:][0].x + charts[-1:][0].width // 2,
-        charts[-1:][0].y - 14): createArrow(coordinate)
+    charts[-1:][0].smallButtons[0]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[0]: createArrow(coor)
+    charts[-1:][0].smallButtons[1]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[1]: createArrow(coor)
+    charts[-1:][0].smallButtons[2]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[2]: createArrow(coor)
+    charts[-1:][0].smallButtons[3]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[3]: createArrow(coor)
     charts[-1:][0].draw()
+
 
 def createClass():
     global charts
