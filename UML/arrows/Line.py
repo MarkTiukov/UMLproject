@@ -5,8 +5,6 @@ import Colors
 
 class Line:
     def __init__(self, canvas: tk.Canvas, start: (int, int), end: (int, int), color=Colors.BLACK, thickness=2):
-        # self.firstChart = firstChart
-        # self.secondChart = secondChart
         self.canvas = canvas
         self.start = start
         self.end = end

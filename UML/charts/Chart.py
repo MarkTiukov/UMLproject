@@ -47,7 +47,6 @@ class Chart:
     def draw(self):
         self.canvas.create_rectangle(self.x - 1, self.y - 1, self.x + self.width + 1, self.y + self.height + 1,
                                      width=self.thickness, outline=self.boundColor)
-        self.smallButtons[0].place(x=self.buttonCoordinates[0][0], y=self.buttonCoordinates[0][1], height=10, width=10)
-        self.smallButtons[1].place(x=self.buttonCoordinates[1][0], y=self.buttonCoordinates[1][1], width=10, height=10)
-        self.smallButtons[2].place(x=self.buttonCoordinates[2][0], y=self.buttonCoordinates[2][1], height=10, width=10)
-        self.smallButtons[3].place(x=self.buttonCoordinates[3][0], y=self.buttonCoordinates[3][1], width=10, height=10)
+        for i in range(len(self.smallButtons)):
+            self.smallButtons[i].place(x=self.buttonCoordinates[i][0], y=self.buttonCoordinates[i][1], height=10,
+                                       width=10)

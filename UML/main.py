@@ -50,16 +50,15 @@ def createArrow(coordinates):
 
 def popup(event):
     global xToCreate, yToCreate
+    print("popup")
     xToCreate = event.x
     yToCreate = event.y
     menu.post(event.x_root, event.y_root)
 
 
 def createChart():
-    charts[-1:][0].smallButtons[0]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[0]: createArrow(coor)
-    charts[-1:][0].smallButtons[1]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[1]: createArrow(coor)
-    charts[-1:][0].smallButtons[2]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[2]: createArrow(coor)
-    charts[-1:][0].smallButtons[3]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[3]: createArrow(coor)
+    for i in range(4):
+        charts[-1:][0].smallButtons[i]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[i]: createArrow(coor)
     charts[-1:][0].draw()
 
 
