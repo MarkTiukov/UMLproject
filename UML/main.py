@@ -6,8 +6,10 @@ from arrows.Line import Line
 from charts.ClassChart import ClassChart
 from charts.InterfaceChart import InterfaceChart
 
-mouseRightButton = {"linux": "<Button-3>", "win32": "<Button-3>", "cygwin": "<Button-3>", "darwin": "<Button-2>"}[
-    sys.platform]
+mouseRightButton = \
+    {"linux": "<Button-3>", "win32": "<Button-3>", "cygwin": "<Button-3>",
+     "darwin": "<Button-2>"}[
+        sys.platform]
 
 windowWidth = 1500
 windowHeight = 1000
@@ -28,7 +30,8 @@ arrowEnd = None
 xToCreate = 100
 yToCreate = 100
 
-mb.showinfo("Небольшой туториал", "Нажми правой кнопкой там, где хочешь создать класс или интерфейс")
+mb.showinfo("Небольшой туториал",
+            "Нажми правой кнопкой там, где хочешь создать класс или интерфейс")
 
 
 def drawArrow():
@@ -58,19 +61,20 @@ def popup(event):
 
 def createChart():
     for i in range(4):
-        charts[-1:][0].smallButtons[i]['command'] = lambda coor=charts[-1:][0].buttonCoordinates[i]: createArrow(coor)
+        charts[-1:][0].smallButtons[i]['command'] = lambda \
+                coor=charts[-1:][0].buttonCoordinates[i]: createArrow(coor)
     charts[-1:][0].draw()
 
 
 def createClass():
     global charts
-    charts.append(ClassChart(canvas, x=xToCreate, y=yToCreate))
+    charts.append(ClassChart(canvas, len(charts), x=xToCreate, y=yToCreate))
     createChart()
 
 
 def createInterface():
     global charts
-    charts.append(InterfaceChart(canvas, x=xToCreate, y=yToCreate))
+    charts.append(InterfaceChart(canvas, len(charts), x=xToCreate, y=yToCreate))
     createChart()
 
 

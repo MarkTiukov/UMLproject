@@ -4,7 +4,8 @@ import Colors
 
 
 class Line:
-    def __init__(self, canvas: tk.Canvas, start: (int, int), end: (int, int), color=Colors.BLACK, thickness=2):
+    def __init__(self, canvas: tk.Canvas, start: (int, int), end: (int, int),
+                 color=Colors.BLACK, thickness=2):
         self.canvas = canvas
         self.start = start
         self.end = end
@@ -26,5 +27,6 @@ class Line:
 
     def draw(self):
         if len(self.points) == 2:
-            self.canvas.create_line(*self.start, *self.end, fill=self.color, width=self.thickness, arrow=tk.LAST,
+            self.canvas.create_line(*self.start, *self.end, fill=self.color,
+                                    width=self.thickness, arrow=tk.LAST,
                                     arrowshape="10 20 10")
