@@ -14,8 +14,8 @@ def func2():
 class Chart:
 
     def __init__(self,
-                 canvas,
-                 tag,
+                 canvas: tk.Canvas,
+                 arrows: list,
                  x=0, y=0,
                  width=160,
                  height=200,
@@ -23,7 +23,6 @@ class Chart:
                  thickness=4,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY):
         self.canvas = canvas
-        self.tag = str(tag)
         self.width = width
         self.height = height
         self.boundColor = boundColor
@@ -36,16 +35,7 @@ class Chart:
         self.smallButtons = [
             tk.Button(text="", width=1, height=1, bg=Colors.PINK,
                       fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN),
-            tk.Button(text="", width=1, height=1, bg=Colors.PINK,
-                      fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN),
-            tk.Button(text="", width=1, height=1, bg=Colors.PINK,
-                      fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN),
-            tk.Button(text="", width=1, height=1, bg=Colors.PINK,
-                      fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN)]
+                      activeforeground=Colors.GREEN) for i in range(4)]
         self.buttonCoordinates = [(self.x + self.width // 2 - 5, self.y - 12),
                                   (self.x + self.width + 2,
                                    self.y + self.height // 2 - 5),

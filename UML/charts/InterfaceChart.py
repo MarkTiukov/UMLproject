@@ -6,8 +6,8 @@ from charts.Chart import Chart
 
 class InterfaceChart(Chart):
     def __init__(self,
-                 canvas,
-                 number,
+                 canvas: tk.Canvas,
+                 arrows: list,
                  x=0, y=0,
                  width=160,
                  height=200,
@@ -15,7 +15,7 @@ class InterfaceChart(Chart):
                  thickness=2,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY,
                  name="Interface"):
-        super().__init__(canvas, number, x, y, width, height, boundColor,
+        super().__init__(canvas, arrows, x, y, width, height, boundColor,
                          thickness,
                          backgroundColor)
         self.name = tk.Text(self.frame, width=self.width, height=2,

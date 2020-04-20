@@ -35,6 +35,7 @@ mb.showinfo("Небольшой туториал",
 
 
 def drawArrow():
+    # TODO Finish implementation charts in lines
     arrows.append(Line(canvas, arrowStart, arrowEnd))
     arrows[-1:][0].draw()
 
@@ -62,19 +63,20 @@ def popup(event):
 def createChart():
     for i in range(4):
         charts[-1:][0].smallButtons[i]['command'] = lambda \
-                coor=charts[-1:][0].buttonCoordinates[i]: createArrow(coor)
+                coor={"coordinates": charts[-1:][0].buttonCoordinates[i],
+                      "chart": charts[-1:]}: createArrow(coor)
     charts[-1:][0].draw()
 
 
 def createClass():
     global charts
-    charts.append(ClassChart(canvas, len(charts), x=xToCreate, y=yToCreate))
+    charts.append(ClassChart(canvas, arrows, x=xToCreate, y=yToCreate))
     createChart()
 
 
 def createInterface():
     global charts
-    charts.append(InterfaceChart(canvas, len(charts), x=xToCreate, y=yToCreate))
+    charts.append(InterfaceChart(canvas, arrows, x=xToCreate, y=yToCreate))
     createChart()
 
 
