@@ -55,13 +55,14 @@ def createChart():
 
 def createClass():
     global charts
-    charts.append(ClassChart(canvas, arrows, x=xToCreate, y=yToCreate))
+    charts.append(ClassChart(canvas, charts, arrows, x=xToCreate, y=yToCreate))
     createChart()
 
 
 def createInterface():
     global charts
-    charts.append(InterfaceChart(canvas, arrows, x=xToCreate, y=yToCreate))
+    charts.append(
+        InterfaceChart(canvas, charts, arrows, x=xToCreate, y=yToCreate))
     createChart()
 
 

@@ -15,6 +15,7 @@ class Chart:
 
     def __init__(self,
                  canvas: tk.Canvas,
+                 charts: list,
                  arrows: dict,
                  x=0, y=0,
                  width=160,
@@ -23,6 +24,7 @@ class Chart:
                  thickness=4,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY):
         self.canvas = canvas
+        self.charts = charts
         self.arrows = arrows
         self.width = width
         self.height = height
@@ -79,6 +81,7 @@ class Chart:
         for arrowName in self.arrowsIn:
             self.canvas.delete(self.arrows[arrowName].getObject())
             self.arrowsIn.remove(arrowName)
+        self.charts.remove(self)
 
     def deleteInArrow(self, name):
         if name in self.arrowsIn:

@@ -7,6 +7,7 @@ from charts.Chart import Chart
 class ClassChart(Chart):
     def __init__(self,
                  canvas: tk.Canvas,
+                 charts: list,
                  arrows: list,
                  x=0, y=0,
                  width=160,
@@ -15,7 +16,8 @@ class ClassChart(Chart):
                  thickness=4,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY,
                  name="Class"):
-        super().__init__(canvas, arrows, x, y, width, height, boundColor,
+        super().__init__(canvas, charts, arrows, x, y, width, height,
+                         boundColor,
                          thickness, backgroundColor)
         self.name = tk.Text(self.frame, width=self.width, height=1,
                             bg=self.backgroundColor, wrap=tk.WORD)
