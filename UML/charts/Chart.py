@@ -14,8 +14,9 @@ def func2():
 class Chart:
 
     def __init__(self,
-                 canvas,
-                 tag,
+                 canvas: tk.Canvas,
+                 charts: list,
+                 arrows: dict,
                  x=0, y=0,
                  width=160,
                  height=200,
@@ -23,7 +24,8 @@ class Chart:
                  thickness=4,
                  backgroundColor=Colors.LIGHT_LIGHT_GREY):
         self.canvas = canvas
-        self.tag = str(tag)
+        self.charts = charts
+        self.arrows = arrows
         self.width = width
         self.height = height
         self.boundColor = boundColor
@@ -36,16 +38,7 @@ class Chart:
         self.smallButtons = [
             tk.Button(text="", width=1, height=1, bg=Colors.PINK,
                       fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN),
-            tk.Button(text="", width=1, height=1, bg=Colors.PINK,
-                      fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN),
-            tk.Button(text="", width=1, height=1, bg=Colors.PINK,
-                      fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN),
-            tk.Button(text="", width=1, height=1, bg=Colors.PINK,
-                      fg=Colors.BLACK, activebackground=Colors.YELLOW,
-                      activeforeground=Colors.GREEN)]
+                      activeforeground=Colors.GREEN) for i in range(4)]
         self.buttonCoordinates = [(self.x + self.width // 2 - 5, self.y - 12),
                                   (self.x + self.width + 2,
                                    self.y + self.height // 2 - 5),
@@ -54,6 +47,9 @@ class Chart:
                                   (self.x - 12, self.y + self.height // 2 - 5)]
         self.deleteButton = tk.Button(text="x", width=1, height=1,
                                       bg=Colors.RED, command=self.destroy)
+        self.arrowsIn = []
+        self.arrowsOut = []
+        self.fromChart = dict()
 
     def draw(self):
         self.border = self.canvas.create_rectangle(self.x - 1, self.y - 1,
@@ -74,3 +70,26 @@ class Chart:
         self.deleteButton.destroy()
         self.canvas.delete(self.border)
         self.frame.destroy()
+        # deleting incoming arrows
+        import copy
+        curcopy = copy.copy(self.arrowsOut)
+        for arrowName in curcopy:
+            print("out:", self.arrowsOut)
+            print(self.arrows[arrowName].getName())
+            self.canvas.delete(self.arrows[arrowName].getObject())
+            self.arrowsOut.remove(arrowName)
+        for arrowName in self.arrowsIn:
+            self.canvas.delete(self.arrows[arrowName].getObject())
+            self.arrowsIn.remove(arrowName)
+        self.charts.remove(self)
+
+    def deleteInArrow(self, name):
+        if name in self.arrowsIn:
+            self.arrowsIn.remove(name)
+
+    def addStartArrow(self, name: str):
+        self.arrowsOut.append(name)
+
+    def addEndArrow(self, name: str, fromChart):
+        self.arrowsIn.append(name)
+        self.fromChart[name] = fromChart
