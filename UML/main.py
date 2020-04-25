@@ -29,8 +29,10 @@ def createArrow(coordinates, chart):
         name = getName()
         startChart.addStartArrow(name)
         chart.addEndArrow(name, startChart)
+        print("test: ", name)
         arrows[name] = Line(canvas, arrowStart, arrowEnd, name)
         drawArrow(name)
+        startChart = None
         arrowStart = None
         arrowEnd = None
 

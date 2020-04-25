@@ -69,12 +69,15 @@ class Chart:
         self.canvas.delete(self.border)
         self.frame.destroy()
         # deleting incoming arrows
-        for arrowName in self.arrowsOut:
+        import copy
+        curcopy = copy.copy(self.arrowsOut)
+        for arrowName in curcopy:
+            print("out:", self.arrowsOut)
             print(self.arrows[arrowName].getName())
             self.canvas.delete(self.arrows[arrowName].getObject())
             self.arrowsOut.remove(arrowName)
         for arrowName in self.arrowsIn:
-            self.canvas.delete(self.arrows[arrowName])
+            self.canvas.delete(self.arrows[arrowName].getObject())
             self.arrowsIn.remove(arrowName)
 
     def deleteInArrow(self, name):
